@@ -43,6 +43,12 @@
     component: './TableList',
   },
   {
+    name: 'list.table-list',
+    icon: 'icon-zuoxuan',
+    path: '/list',
+    component: './TableList',
+  },
+  {
     path: '/',
     redirect: '/welcome',
   },

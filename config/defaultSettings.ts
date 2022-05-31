@@ -12,10 +12,10 @@ const Settings: LayoutSettings & {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'Ant Design Pro',
+  title: 'yang ruixuan',
   pwa: false,
   // logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',//这里存在争议
-  iconfontUrl: '',
+  iconfontUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js',//https://github.com/ant-design/pro-components/blob/master/packages/layout/src/components/SiderMenu/BaseMenu.tsx
 };
 
 export default Settings;
