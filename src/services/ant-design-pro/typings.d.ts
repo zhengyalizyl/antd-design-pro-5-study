@@ -44,6 +44,7 @@ declare namespace API {
     username?: string;
     updatedAt?: string;
     createdAt?: string;
+    password?:string;
     isAdmin?:boolean
   };
 

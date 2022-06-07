@@ -23,7 +23,7 @@ const UpdateForm: React.FC<UpdateFormProps> = props => {
   const [formVals, setFormVals] = useState<FormValueType>({
     _id: props.values._id,
     username: props.values.username,
-    password: ''
+    password: props.values.password
   });
 
   const [form] = Form.useForm();
@@ -49,14 +49,14 @@ const UpdateForm: React.FC<UpdateFormProps> = props => {
         <FormItem
           name="username"
           label="用户名"
-          rules={[{ required: true, message: '请输入用户名！', min: 5 }]}
+          rules={[{ required: true, message: '请输入用户名！', min: 1 }]}
         >
           <Input placeholder="请输入" />
         </FormItem>
         <FormItem
           name="password"
           label="密码"
-          rules={[{ required: true, message: '请输入密码！', min: 6 }]}
+          rules={[{ required: true, message: '请输入密码！' }]}
         >
           <Input placeholder="请输入" />
         </FormItem>

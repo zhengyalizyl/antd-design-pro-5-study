@@ -1,4 +1,4 @@
-import { addRule, removeRule, queryUsers, updateRule } from '@/services/ant-design-pro/api';
+import { addUser, removeRule, queryUsers, updateRule } from '@/services/ant-design-pro/api';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
 import {
@@ -26,7 +26,8 @@ import CreateForm from './components/CreateForm';
 const handleAdd = async (fields: API.RuleListItem) => {
   const hide = message.loading('正在添加');
   try {
-    await addRule({ ...fields });
+    console.log()
+    await addUser({ ...fields });
     hide();
     message.success('Added successfully');
     return true;
@@ -142,6 +143,7 @@ const TableList: React.FC = () => {
     },
     {
       title: '密码',
+      hideInTable: true,
       formItemProps: {
         rules: [
           {
