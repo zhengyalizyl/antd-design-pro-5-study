@@ -140,7 +140,7 @@ const errorHandler = (error: ResponseError) => {
   if (response && (response.status !== 200) && (response.status !== 422)) {
     const errorText = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
-    if (response && response.status === 401) {
+    if (response && ((response.status === 401) || (response.status === 403))) {
       notification.error({
         message: `认证超时`,
         description: '认证超时，请重新登录',

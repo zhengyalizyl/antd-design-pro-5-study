@@ -51,10 +51,10 @@ export async function queryUsers(
   });
 }
 
-/** 新建规则 PUT /api/rule */
-export async function updateRule(options?: { [key: string]: any }) {
+/** 删除规则 DELETE /api/rule  */
+export async function removeRule(options?: { [key: string]: any }) {
   return request<API.RuleListItem>('/api/rule', {
-    method: 'PUT',
+    method: 'DELETE',
     ...(options || {}),
   });
 }
@@ -69,10 +69,11 @@ export async function addUser(options?: { [key: string]: any }) {
   });
 }
 
-/** 删除规则 DELETE /api/rule */
-export async function removeRule(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/rule', {
-    method: 'DELETE',
+/** 更新规则 PUT  /admin/:id*/
+export async function updateUser(options: { [key: string]: any }) {
+  const {_id}=options;
+  return request<Record<string, any>>(`/admin/${_id}`, {
+    method: 'PUT',
     data: {
       ...(options || {}),
     },

@@ -1,13 +1,10 @@
-import { addUser, removeRule, queryUsers, updateRule } from '@/services/ant-design-pro/api';
+import { addUser, removeRule, queryUsers, updateUser } from '@/services/ant-design-pro/api';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
 import {
   FooterToolbar,
-  ModalForm,
   PageContainer,
   ProDescriptions,
-  ProFormText,
-  ProFormTextArea,
   ProTable,
 } from '@ant-design/pro-components';
 import { Button, Drawer, Input, message } from 'antd';
@@ -46,11 +43,12 @@ const handleAdd = async (fields: API.RuleListItem) => {
  */
 const handleUpdate = async (fields: FormValueType) => {
   const hide = message.loading('Configuring');
+  console.log(fields)
   try {
-    await updateRule({
-      name: fields.username,
-      // desc: fields.desc,
-      key: fields._id,
+    await updateUser({
+      username: fields.username,
+      password: fields.password,
+      _id: fields._id,
     });
     hide();
 
