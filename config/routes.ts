@@ -40,7 +40,7 @@
     name: 'admin',
     icon: 'table',
     path: '/admin',
-    // access: 'canAdmin',
+    access: 'canAdmin',
     routes: [
       {
         name: 'admin.user',

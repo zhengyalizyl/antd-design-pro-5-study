@@ -9,11 +9,12 @@ import {
 } from '@ant-design/pro-components';
 import { Button, Drawer, Input, message } from 'antd';
 import React, { useRef, useState } from 'react';
-import { FormattedMessage, useIntl } from 'umi';
+import { FormattedMessage, useIntl, useAccess } from 'umi';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import moment from 'moment';
 import CreateForm from './components/CreateForm';
+import access from '../../../access';
 
 /**
  * @en-US Add node
@@ -213,6 +214,7 @@ const TableList: React.FC = () => {
     },
   ];
 
+  const access = useAccess();
   return (
     <PageContainer>
       <ProTable<API.RuleListItem, API.PageParams>
@@ -227,15 +229,18 @@ const TableList: React.FC = () => {
         }}
         pagination={{ defaultPageSize: 2 }}
         toolBarRender={() => [
-          <Button
-            type="primary"
-            key="primary"
-            onClick={() => {
-              handleModalVisible(true);
-            }}
-          >
-            <PlusOutlined /> 新建员工
-          </Button>,
+          (access.canAdmin && (
+            <Button
+              type="primary"
+              key="primary"
+              onClick={() => {
+                handleModalVisible(true);
+              }}
+            >
+              <PlusOutlined /> 新建员工
+            </Button>
+          )
+          )
         ]}
         request={async (params, sort, filter) => {
           console.log(params, sort)
