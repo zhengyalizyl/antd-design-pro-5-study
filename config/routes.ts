@@ -19,33 +19,48 @@
     icon: 'smile',
     component: './Welcome',
   },
+  // {
+  //   path: '/admin',
+  //   name: 'admin',
+  //   icon: 'crown',
+  //  // access: 'canAdmin',
+  //   routes: [
+  //     {
+  //       path: '/admin/users',
+  //       name: 'table',
+  //       icon: 'users',
+  //       // component: './Welcome',
+  //     },
+  //     {
+  //       component: './404',
+  //     },
+  //   ],
+  // },
   {
-    path: '/admin',
     name: 'admin',
-    icon: 'crown',
-    access: 'canAdmin',
+    icon: 'table',
+    path: '/admin',
+    // access: 'canAdmin',
     routes: [
       {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        icon: 'smile',
-        component: './Welcome',
-      },
-      {
-        component: './404',
-      },
-    ],
+        name: 'admin.user',
+        icon: 'users',
+        path: '/admin/users',
+        component: './admin/Users',
+      }
+    ]
   },
+  // {
+  //   name: 'admin.user',
+  //   icon: 'users',
+  //   path: '/admin/users',
+  //   access: 'canAdmin',
+  //   component: './admin/Users',
+  // },
   {
     name: 'list.table-list',
     icon: 'table',
-    path: '/list',
-    component: './TableList',
-  },
-  {
-    name: 'list.table-list',
-    icon: 'icon-zuoxuan',
-    path: '/list',
+    path: '/table',
     component: './TableList',
   },
   {

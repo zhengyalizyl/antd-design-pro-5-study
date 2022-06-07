@@ -1,5 +1,5 @@
 import Footer from '@/components/Footer';
-import { login } from '@/services/ant-design-pro/api';
+import { login } from '@/services/ant-design-pro/login';
 import {
   LockOutlined,
   UserOutlined,
@@ -51,18 +51,22 @@ const Login: React.FC = () => {
     try {
       // 登录
       const msg = await login({ ...values });
-      if (msg.status === 'ok') {
+      if (msg.success && msg.data) {
+        localStorage.setItem('token', msg.data.token)
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
         });
+
         message.success(defaultLoginSuccessMessage);
+
         await fetchUserInfo();
         /** 此方法会跳转到 redirect 参数所在的位置 */
         if (!history) return;
         const { query } = history.location;
         const { redirect } = query as { redirect: string };
-        history.push(redirect || '/');
+        // history.push(redirect || '/'); 登录提交后，第一次请求时 token 没有取到，要刷新才能进入后台。
+        window.location.href = redirect || '/';
         return;
       }
       console.log(msg);
@@ -73,10 +77,12 @@ const Login: React.FC = () => {
         id: 'pages.login.failure',
         defaultMessage: '登录失败，请重试！',
       });
+      console.dir(error)
+      setUserLoginState(error?.data)
       message.error(defaultLoginFailureMessage);
     }
   };
-  const { status } = userLoginState;
+  const { success, errors } = userLoginState;
 
   return (
     <div className={styles.container}>
@@ -102,12 +108,9 @@ const Login: React.FC = () => {
             />
           </Tabs>
 
-          {status === 'error' && (
+          {!success && errors && (
             <LoginMessage
-              content={intl.formatMessage({
-                id: 'pages.login.accountLogin.errorMessage',
-                defaultMessage: '账户或密码错误(admin/zyl)',
-              })}
+              content={errors.general || '账号密码出错'}
             />
           )}
 

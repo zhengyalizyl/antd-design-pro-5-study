@@ -16,7 +16,7 @@ const genList = (current: number, pageSize: number) => {
         'https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png',
         'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png',
       ][i % 2],
-      name: `TradeCode ${index}`,
+      username: `TradeCode ${index}`,
       owner: '曲丽丽',
       desc: '这是一段描述',
       callNo: Math.floor(Math.random() * 1000),
@@ -89,8 +89,8 @@ function getRule(req: Request, res: Response, u: string) {
     }
   }
 
-  if (params.name) {
-    dataSource = dataSource.filter((data) => data?.name?.includes(params.name || ''));
+  if (params.username) {
+    dataSource = dataSource.filter((data) => data?.username?.includes(params.username || ''));
   }
   const result = {
     data: dataSource,

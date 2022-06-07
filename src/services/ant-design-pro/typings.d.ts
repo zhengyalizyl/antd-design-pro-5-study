@@ -24,9 +24,14 @@ declare namespace API {
   };
 
   type LoginResult = {
-    status?: string;
-    type?: string;
-    currentAuthority?: string;
+    success?:boolean ;
+    message?:string;
+    errors?: {
+      general?: string;
+    };
+    data?:{
+      token:string
+    }
   };
 
   type PageParams = {
@@ -39,7 +44,7 @@ declare namespace API {
     disabled?: boolean;
     href?: string;
     avatar?: string;
-    name?: string;
+    username?: string;
     owner?: string;
     desc?: string;
     callNo?: number;
@@ -64,8 +69,6 @@ declare namespace API {
   type LoginParams = {
     username?: string;
     password?: string;
-    autoLogin?: boolean;
-    type?: string;
   };
 
   type ErrorResponse = {
