@@ -16,6 +16,7 @@ import { FormattedMessage, useIntl } from 'umi';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import moment from 'moment';
+import CreateForm from './components/CreateForm';
 
 /**
  * @en-US Add node
@@ -140,7 +141,7 @@ const TableList: React.FC = () => {
       ),
       dataIndex: 'isAdmin',
       filters: true,
-      hideInForm: true,
+      // hideInForm: true,
       renderText: (val: string) => val ? '是' : '否',
       initialValue: 'all',
       valueEnum: {
@@ -211,7 +212,7 @@ const TableList: React.FC = () => {
               handleModalVisible(true);
             }}
           >
-            <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
+            <PlusOutlined /> 新建员工
           </Button>,
         ]}
         request={async (params, sort, filter) => {
@@ -251,41 +252,22 @@ const TableList: React.FC = () => {
           </Button>
         </FooterToolbar>
       )}
-      <ModalForm
-        title={intl.formatMessage({
-          id: 'pages.searchTable.createForm.newRule',
-          defaultMessage: 'New rule',
-        })}
-        width="400px"
-        visible={createModalVisible}
-        onVisibleChange={handleModalVisible}
-        onFinish={async (value) => {
-          const success = await handleAdd(value as API.RuleListItem);
-          if (success) {
-            handleModalVisible(false);
-            if (actionRef.current) {
-              actionRef.current.reload();
+      <CreateForm onCancel={() => handleModalVisible(false)} modalVisible={createModalVisible}>
+        <ProTable<API.RuleListItem, API.PageParams>
+          onSubmit={async (value) => {
+            const success = await handleAdd(value as API.RuleListItem);
+            if (success) {
+              handleModalVisible(false);
+              if (actionRef.current) {
+                actionRef.current.reload();
+              }
             }
-          }
-        }}
-      >
-        <ProFormText
-          rules={[
-            {
-              required: true,
-              message: (
-                <FormattedMessage
-                  id="pages.searchTable.ruleName"
-                  defaultMessage="Rule name is required"
-                />
-              ),
-            },
-          ]}
-          width="md"
-          name="name"
+          }}
+          rowKey="_id"
+          type="form"
+          columns={columns}
         />
-        <ProFormTextArea width="md" name="desc" />
-      </ModalForm>
+      </CreateForm>
       <UpdateForm
         onSubmit={async (value) => {
           const success = await handleUpdate(value);
