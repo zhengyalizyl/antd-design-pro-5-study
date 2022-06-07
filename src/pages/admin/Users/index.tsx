@@ -141,6 +141,18 @@ const TableList: React.FC = () => {
       },
     },
     {
+      title: '密码',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '密码为必填项',
+          },
+        ],
+      },
+      dataIndex: 'password'
+    },
+    {
       title: (
         <FormattedMessage
           id="pages.searchTable.titleCallNo"
