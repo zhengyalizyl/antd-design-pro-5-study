@@ -71,6 +71,8 @@ export async function addRule(options?: { [key: string]: any }) {
 export async function removeRule(options?: { [key: string]: any }) {
   return request<Record<string, any>>('/api/rule', {
     method: 'DELETE',
-    ...(options || {}),
+    data: {
+      ...(options || {}),
+    },
   });
 }
