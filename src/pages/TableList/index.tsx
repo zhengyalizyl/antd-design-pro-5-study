@@ -71,7 +71,7 @@ const handleRemove = async (selectedRows: API.RuleListItem[]) => {
   if (!selectedRows) return true;
   try {
     await removeRule({
-      key: selectedRows.map((row) => row.key),
+      key: selectedRows.map((row) => row._id),
     });
     hide();
     message.success('Deleted successfully and will refresh soon');
@@ -376,15 +376,15 @@ const TableList: React.FC = () => {
         }}
         closable={false}
       >
-        {currentRow?.name && (
+        {currentRow?.username && (
           <ProDescriptions<API.RuleListItem>
             column={2}
-            title={currentRow?.name}
+            title={currentRow?.username}
             request={async () => ({
               data: currentRow || {},
             })}
             params={{
-              id: currentRow?.name,
+              id: currentRow?.username,
             }}
             columns={columns as ProDescriptionsItemProps<API.RuleListItem>[]}
           />

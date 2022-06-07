@@ -15,7 +15,7 @@ import React, { useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'umi';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
-import request from 'umi-request';
+import moment from 'moment';
 
 /**
  * @en-US Add node
@@ -46,9 +46,9 @@ const handleUpdate = async (fields: FormValueType) => {
   const hide = message.loading('Configuring');
   try {
     await updateRule({
-      name: fields.name,
+      name: fields.username,
       desc: fields.desc,
-      key: fields.key,
+      key: fields._id,
     });
     hide();
 
@@ -72,7 +72,7 @@ const handleRemove = async (selectedRows: API.RuleListItem[]) => {
   if (!selectedRows) return true;
   try {
     await removeRule({
-      key: selectedRows.map((row) => row.key),
+      key: selectedRows.map((row) => row._id),
     });
     hide();
     message.success('Deleted successfully and will refresh soon');
@@ -142,6 +142,12 @@ const TableList: React.FC = () => {
       filters: true,
       hideInForm: true,
       renderText: (val: string) => val ? '是' : '否',
+      initialValue: 'all',
+      valueEnum: {
+        all: { text: '全部', status: 'Default' },
+        true: { text: '是', status: 'Default' },
+        false: { text: '否', status: '123' }
+      }
     },
     {
       title: (
@@ -163,7 +169,8 @@ const TableList: React.FC = () => {
       ),
       sorter: true,
       dataIndex: 'updatedAt',
-      valueType: 'dateTime'
+      // valueType: 'dateTime',
+      renderText: (val: string) => moment(val).fromNow(),
     },
     {
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Operating" />,
@@ -327,12 +334,12 @@ const TableList: React.FC = () => {
         {currentRow?.username && (
           <ProDescriptions<API.RuleListItem>
             column={2}
-            title={currentRow?.username}
+            title={`${currentRow?.username}的详情`}
             request={async () => ({
               data: currentRow || {},
             })}
             params={{
-              id: currentRow?.username,
+              id: currentRow?._id,
             }}
             columns={columns as ProDescriptionsItemProps<API.RuleListItem>[]}
           />
