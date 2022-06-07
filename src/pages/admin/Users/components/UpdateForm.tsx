@@ -5,9 +5,7 @@ import ProForm, {
 } from '@ant-design/pro-form';
 
 
-export type FormValueType = {
-  password?: string
-} & Partial<API.RuleListItem>;
+export type FormValueType = Partial<API.RuleListItem>;
 
 export type UpdateFormProps = {
   onCancel: (flag?: boolean, formVals?: FormValueType) => void;
