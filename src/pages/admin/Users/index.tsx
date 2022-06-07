@@ -48,7 +48,7 @@ const handleUpdate = async (fields: FormValueType) => {
   try {
     await updateRule({
       name: fields.username,
-      desc: fields.desc,
+      // desc: fields.desc,
       key: fields._id,
     });
     hide();
@@ -268,26 +268,29 @@ const TableList: React.FC = () => {
           columns={columns}
         />
       </CreateForm>
-      <UpdateForm
-        onSubmit={async (value) => {
-          const success = await handleUpdate(value);
-          if (success) {
-            handleUpdateModalVisible(false);
-            setCurrentRow(undefined);
-            if (actionRef.current) {
-              actionRef.current.reload();
+      {currentRow && Object.keys(currentRow).length && (
+        <UpdateForm
+          onSubmit={async (value) => {
+            const success = await handleUpdate(value);
+            if (success) {
+              handleUpdateModalVisible(false);
+              setCurrentRow(undefined);
+              if (actionRef.current) {
+                actionRef.current.reload();
+              }
             }
-          }
-        }}
-        onCancel={() => {
-          handleUpdateModalVisible(false);
-          if (!showDetail) {
-            setCurrentRow(undefined);
-          }
-        }}
-        updateModalVisible={updateModalVisible}
-        values={currentRow || {}}
-      />
+          }}
+          onCancel={() => {
+            handleUpdateModalVisible(false);
+            if (!showDetail) {
+              setCurrentRow(undefined);
+            }
+          }}
+          updateModalVisible={updateModalVisible}
+          values={currentRow || {}}
+        />
+      )}
+
 
       <Drawer
         width={600}
