@@ -117,6 +117,14 @@ const TableList: React.FC = () => {
           defaultMessage="Rule name"
         />
       ),
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: '用户名为必填项',
+          },
+        ],
+      },
       dataIndex: 'username',
       tip: 'username 是唯一的',
       render: (dom, entity) => {
@@ -141,7 +149,7 @@ const TableList: React.FC = () => {
       ),
       dataIndex: 'isAdmin',
       filters: true,
-      // hideInForm: true,
+      hideInForm: true,
       renderText: (val: string) => val ? '是' : '否',
       initialValue: 'all',
       valueEnum: {
@@ -159,6 +167,7 @@ const TableList: React.FC = () => {
       ),
       sorter: true,
       dataIndex: 'createdAt',
+      hideInForm: true,
       valueType: 'dateTime',
     },
     {
@@ -171,6 +180,7 @@ const TableList: React.FC = () => {
       sorter: true,
       dataIndex: 'updatedAt',
       // valueType: 'dateTime',
+      hideInForm: true,
       renderText: (val: string) => moment(val).fromNow(),
     },
     {
