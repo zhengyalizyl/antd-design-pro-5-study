@@ -30,16 +30,17 @@ declare namespace API {
     updatedAt?: string;
     createdAt?: string;
     password?:string;
-    isAdmin?:boolean
+    isAdmin?:boolean;
+    roles?:[]
   };
 
   type RoleListItem = {
-    _id?:string;
-    name?: string;
-    updatedAt?: string;
-    createdAt?: string;
-    permissions?:[];
-    nameCn?:string;
+    _id:string;
+    name: string;
+    updatedAt: string;
+    createdAt: string;
+    permissions:[];
+    nameCn:string;
   };
   type PermissionListItem = {
     _id?:string;

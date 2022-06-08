@@ -1,4 +1,4 @@
-import { addUser, removeRule, queryUsers, updateUser } from '@/services/ant-design-pro/api';
+import { addUser, removeRule, queryUsers, updateUser, updateRoles } from '@/services/ant-design-pro/api';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
 import {
@@ -14,6 +14,7 @@ import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import moment from 'moment';
 import CreateForm from './components/CreateForm';
+import RoleForm from './components/RoleForm';
 
 /**
  * @en-US Add node
@@ -41,6 +42,24 @@ const handleAdd = async (fields: API.RuleListItem) => {
  *
  * @param fields
  */
+const handleRole = async (fields: FormValueType) => {
+  const hide = message.loading('正在分配角色');
+  try {
+    await updateRoles({
+      ...fields
+    });
+    hide();
+
+    message.success('分配角色 is successful');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('分配角色 failed, please try again!');
+    return false;
+  }
+};
+
+
 const handleUpdate = async (fields: FormValueType) => {
   const hide = message.loading('Configuring');
   console.log(fields)
@@ -95,6 +114,7 @@ const TableList: React.FC = () => {
    * @zh-CN 分布更新窗口的弹窗
    * */
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+  const [roleModalVisible, handleRoleModalVisible] = useState<boolean>(false);
 
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
@@ -138,6 +158,10 @@ const TableList: React.FC = () => {
           </a>
         );
       },
+    },
+    {
+      title: '角色',
+      dataIndex: 'roles'
     },
     {
       title: '密码',
@@ -209,6 +233,15 @@ const TableList: React.FC = () => {
         >
           <FormattedMessage id="pages.searchTable.config" defaultMessage="Configuration" />
         </a>,
+        <a
+          key="config2"
+          onClick={() => {
+            handleRoleModalVisible(true);
+            setCurrentRow(record);
+          }}
+        >
+          分配角色
+        </a>
       ],
     },
   ];
@@ -313,7 +346,28 @@ const TableList: React.FC = () => {
           values={currentRow || {}}
         />
       )}
-
+      {currentRow && Object.keys(currentRow).length && (
+        <RoleForm
+          onSubmit={async (value) => {
+            const success = await handleRole(value);
+            if (success) {
+              handleRoleModalVisible(false);
+              setCurrentRow(undefined);
+              if (actionRef.current) {
+                actionRef.current.reload();
+              }
+            }
+          }}
+          onCancel={() => {
+            handleRoleModalVisible(false);
+            if (!showDetail) {
+              setCurrentRow(undefined);
+            }
+          }}
+          roleModalVisible={roleModalVisible}
+          values={currentRow || {}}
+        />
+      )}
 
       <Drawer
         width={600}

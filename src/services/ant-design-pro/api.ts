@@ -79,3 +79,15 @@ export async function updateUser(options: { [key: string]: any }) {
     },
   });
 }
+
+/** 更新规则 PUT  /admin/:id/roles*/
+export async function updateRoles(options: { [key: string]: any }) {
+  const {_id}=options;
+  console.log('1233')
+  return request<Record<string, any>>(`/admin/${_id}/roles`, {
+    method: 'POST',
+    data: {
+      ...(options || {}),
+    },
+  });
+}

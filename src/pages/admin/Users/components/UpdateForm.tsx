@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal } from 'antd';
+import { Col, Modal, Row, Space } from 'antd';
 import ProForm, {
   ProFormText,
 } from '@ant-design/pro-form';
@@ -13,6 +13,12 @@ export type UpdateFormProps = {
   updateModalVisible: boolean;
   values: Partial<API.RuleListItem>;
 };
+
+const formItemLayout = {
+  labelCol: { span: 6 },
+  wrapperCol: { span: 14 },
+};
+
 
 const UpdateForm: React.FC<UpdateFormProps> = (props) => (
   <Modal
@@ -30,6 +36,8 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => (
         password: props.values.password,
         _id: props.values._id
       }}
+      {...formItemLayout}
+      layout={'horizontal'}
       onFinish={async (values) => {
         props.onSubmit(values);
       }}
