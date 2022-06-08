@@ -31,9 +31,7 @@ const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
   const { initialState, setInitialState } = useModel('@@initialState');
   const { user, setUser } = useModel('useProductList')
-  console.log(user)
   setUser('hello')
-  console.log(user)
 
   const intl = useIntl();
 
@@ -51,7 +49,7 @@ const Login: React.FC = () => {
     try {
       // 登录
       const msg = await login({ ...values });
-      if (msg.success && msg.data) {
+      if (msg && msg.success && msg.data) {
         localStorage.setItem('token', msg.data.token)
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',

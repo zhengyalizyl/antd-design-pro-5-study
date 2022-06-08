@@ -14,7 +14,6 @@ import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import moment from 'moment';
 import CreateForm from './components/CreateForm';
-import access from '../../../access';
 
 /**
  * @en-US Add node
