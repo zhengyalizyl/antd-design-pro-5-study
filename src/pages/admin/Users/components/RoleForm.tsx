@@ -46,7 +46,7 @@ const RoleForm: React.FC<RoleFormProps> = (props) => {
             {loading ? <Spin /> : (
                 <Form
                     initialValues={{
-                        roleIds: props.values.roles,
+                        roleIds: props.values.roles?.map(role => role._id),
                         _id: props.values._id
                     }}
                     onFinish={onFinish}>

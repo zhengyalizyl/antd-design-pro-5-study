@@ -31,7 +31,7 @@ declare namespace API {
     createdAt?: string;
     password?:string;
     isAdmin?:boolean;
-    roles?:[]
+    roles?:RoleListItem[]
   };
 
   type RoleListItem = {
