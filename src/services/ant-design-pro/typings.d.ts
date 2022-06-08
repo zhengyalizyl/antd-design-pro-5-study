@@ -33,8 +33,38 @@ declare namespace API {
     isAdmin?:boolean
   };
 
+  type RoleListItem = {
+    _id?:string;
+    name?: string;
+    updatedAt?: string;
+    createdAt?: string;
+    permissions?:[];
+    nameCn?:string;
+  };
+  type PermissionListItem = {
+    _id?:string;
+    name?: string;
+    updatedAt?: string;
+    createdAt?: string;
+    nameCn?:string;
+  };
+
   type RuleList = {
     data?: RuleListItem[];
+    /** 列表的内容总数 */
+    total?: number;
+    success?: boolean;
+  };
+
+  type RoleList = {
+    data?: RoleListItem[];
+    /** 列表的内容总数 */
+    total?: number;
+    success?: boolean;
+  };
+
+  type PermissionList = {
+    data?: PermissionListIte[];
     /** 列表的内容总数 */
     total?: number;
     success?: boolean;

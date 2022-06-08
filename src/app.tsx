@@ -145,7 +145,7 @@ const errorHandler = (error: ResponseError) => {
         message: `认证超时`,
         description: '认证超时，请重新登录',
       });
-      history.push('/user/login')
+      history.push(`/user/login?redirect=${window.location.href}`)
       return
     }
     notification.error({

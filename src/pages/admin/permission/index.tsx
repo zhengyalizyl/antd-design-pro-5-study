@@ -1,4 +1,4 @@
-import { addUser, removeRule, queryUsers, updateUser } from '@/services/ant-design-pro/api';
+import { addPermissions, removeRule, queryPermissions, updatePermission } from '@/services/ant-design-pro/permission';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns, ProDescriptionsItemProps } from '@ant-design/pro-components';
 import {
@@ -20,11 +20,10 @@ import CreateForm from './components/CreateForm';
  * @zh-CN 添加节点
  * @param fields
  */
-const handleAdd = async (fields: API.RuleListItem) => {
+const handleAdd = async (fields: API.PermissionListItem) => {
   const hide = message.loading('正在添加');
   try {
-    console.log()
-    await addUser({ ...fields });
+    await addPermissions({ ...fields });
     hide();
     message.success('Added successfully');
     return true;
@@ -43,11 +42,10 @@ const handleAdd = async (fields: API.RuleListItem) => {
  */
 const handleUpdate = async (fields: FormValueType) => {
   const hide = message.loading('Configuring');
-  console.log(fields)
   try {
-    await updateUser({
-      username: fields.username,
-      password: fields.password,
+    await updatePermission({
+      name: fields.name,
+      nameCn: fields.nameCn,
       _id: fields._id,
     });
     hide();
@@ -67,7 +65,7 @@ const handleUpdate = async (fields: FormValueType) => {
  *
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: API.RuleListItem[]) => {
+const handleRemove = async (selectedRows: API.PermissionListItem[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
@@ -99,8 +97,8 @@ const TableList: React.FC = () => {
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<API.RuleListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<API.RuleListItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<API.PermissionListItem>();
+  const [selectedRowsState, setSelectedRows] = useState<API.PermissionListItem[]>([]);
 
   /**
    * @en-US International configuration
@@ -108,24 +106,18 @@ const TableList: React.FC = () => {
    * */
   const intl = useIntl();
 
-  const columns: ProColumns<API.RuleListItem>[] = [
+  const columns: ProColumns<API.PermissionListItem>[] = [
     {
-      title: (
-        <FormattedMessage
-          id="pages.searchTable.updateForm.ruleName.nameLabel"
-          defaultMessage="Rule name"
-        />
-      ),
+      title: "标识符",
       formItemProps: {
         rules: [
           {
             required: true,
-            message: '用户名为必填项',
+            message: '标识符为必填项',
           },
         ],
       },
-      dataIndex: 'username',
-      tip: 'username 是唯一的',
+      dataIndex: 'nameCn',
       render: (dom, entity) => {
         return (
           <a
@@ -140,47 +132,16 @@ const TableList: React.FC = () => {
       },
     },
     {
-      title: '密码',
-      hideInTable: true,
+      title: '名称',
+      dataIndex: 'name',
       formItemProps: {
         rules: [
           {
             required: true,
-            message: '密码为必填项',
+            message: '用户名为必填项',
           },
         ],
-      },
-      dataIndex: 'password'
-    },
-    {
-      title: (
-        <FormattedMessage
-          id="pages.searchTable.titleCallNo"
-          defaultMessage="Number of service calls"
-        />
-      ),
-      dataIndex: 'isAdmin',
-      filters: true,
-      hideInForm: true,
-      renderText: (val: string) => val ? '是' : '否',
-      initialValue: 'all',
-      valueEnum: {
-        all: { text: '全部', status: 'Default' },
-        true: { text: '是', status: 'Default' },
-        false: { text: '否', status: '123' }
       }
-    },
-    {
-      title: (
-        <FormattedMessage
-          id="pages.searchTable.titleCreatedAt"
-          defaultMessage="上次创建的时间"
-        />
-      ),
-      sorter: true,
-      dataIndex: 'createdAt',
-      hideInForm: true,
-      valueType: 'dateTime',
     },
     {
       title: (
@@ -217,7 +178,7 @@ const TableList: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<API.RuleListItem, API.PageParams>
-        headerTitle="员工列表"
+        headerTitle="权限列表"
         actionRef={actionRef}
         rowKey="_id"
         search={{
@@ -233,14 +194,13 @@ const TableList: React.FC = () => {
                 handleModalVisible(true);
               }}
             >
-              <PlusOutlined /> 新建员工
+              <PlusOutlined /> 新建权限
             </Button>
           )
           )
         ]}
         request={async (params, sort, filter) => {
-          console.log(params, sort)
-          const data = await queryUsers(params, { sort, filter });
+          const data = await queryPermissions(params, { sort, filter });
           return data
         }}
         // request={queryUsers}
@@ -276,9 +236,9 @@ const TableList: React.FC = () => {
         </FooterToolbar>
       )}
       <CreateForm onCancel={() => handleModalVisible(false)} modalVisible={createModalVisible}>
-        <ProTable<API.RuleListItem, API.PageParams>
+        <ProTable<API.PermissionListItem, API.PageParams>
           onSubmit={async (value) => {
-            const success = await handleAdd(value as API.RuleListItem);
+            const success = await handleAdd(value as API.PermissionListItem);
             if (success) {
               handleModalVisible(false);
               if (actionRef.current) {
@@ -324,17 +284,17 @@ const TableList: React.FC = () => {
         }}
         closable={false}
       >
-        {currentRow?.username && (
-          <ProDescriptions<API.RuleListItem>
+        {currentRow?.name && (
+          <ProDescriptions<API.PermissionListItem>
             column={2}
-            title={`${currentRow?.username}的详情`}
+            title={`${currentRow?.name}的详情`}
             request={async () => ({
               data: currentRow || {},
             })}
             params={{
               id: currentRow?._id,
             }}
-            columns={columns as ProDescriptionsItemProps<API.RuleListItem>[]}
+            columns={columns as ProDescriptionsItemProps<API.PermissionListItem>[]}
           />
         )}
       </Drawer>

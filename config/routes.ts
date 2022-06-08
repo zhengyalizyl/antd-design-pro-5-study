@@ -19,23 +19,6 @@
     icon: 'smile',
     component: './Welcome',
   },
-  // {
-  //   path: '/admin',
-  //   name: 'admin',
-  //   icon: 'crown',
-  //  // access: 'canAdmin',
-  //   routes: [
-  //     {
-  //       path: '/admin/users',
-  //       name: 'table',
-  //       icon: 'users',
-  //       // component: './Welcome',
-  //     },
-  //     {
-  //       component: './404',
-  //     },
-  //   ],
-  // },
   {
     name: 'admin',
     icon: 'table',
@@ -46,8 +29,24 @@
         name: 'admin.user',
         icon: 'users',
         path: '/admin/users',
-        component: './admin/Users',
-      }
+        component: './admin/users',
+      },
+      {
+        name: 'admin.role',
+        icon: 'users',
+        path: '/admin/roles',
+        component: './admin/roles',
+      },
+      {
+        name: 'admin.perimission',
+        icon: 'users',
+        path: '/admin/permissions',
+        component: './admin/permission',
+      },
+      {
+        path: '/admin',
+        redirect: '/admin/users',
+      },
     ]
   },
   // {
