@@ -171,6 +171,7 @@ const DOMAIN =
 export const request: RequestConfig = {
   errorHandler,
   prefix: `${DOMAIN}`,
+  credentials: 'include',
   headers: {
     Authorization: `Bearer ${localStorage.getItem('token')}`
   }
