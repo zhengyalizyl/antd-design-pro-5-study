@@ -44,6 +44,12 @@
         component: './admin/permission',
       },
       {
+        name: 'admin.menus',
+        icon: 'users',
+        path: '/admin/menus',
+        component: './admin/menus',
+      },
+      {
         path: '/admin',
         redirect: '/admin/users',
       },

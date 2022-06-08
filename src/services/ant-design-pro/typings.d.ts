@@ -49,6 +49,24 @@ declare namespace API {
     nameCn?:string;
   };
 
+  type MenuListItem = {
+    _id?:string;
+    name?: string;
+    updatedAt?: string;
+    createdAt?: string;
+    nameCn?:string;
+    parent?:string;
+    path?:string;
+    permission?:string;
+  };
+
+  type MenuList = {
+    data?: MenuListItem[];
+    /** 列表的内容总数 */
+    total?: number;
+    success?: boolean;
+  };
+
   type RuleList = {
     data?: RuleListItem[];
     /** 列表的内容总数 */

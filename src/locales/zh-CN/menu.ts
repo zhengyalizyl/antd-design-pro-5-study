@@ -26,6 +26,7 @@ export default {
   'menu.admin.admin.user': '员工管理',
   'menu.admin.admin.role':'角色管理',
   'menu.admin.admin.perimission':'权限管理',
+  'menu.admin.admin.menus':'菜单管理',
   'menu.list.basic-list': '标准列表',
   'menu.list.card-list': '卡片列表',
   'menu.list.search-list': '搜索列表',
