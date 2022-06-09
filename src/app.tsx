@@ -1,7 +1,7 @@
 import Footer from '@/components/Footer';
 import RightContent from '@/components/RightContent';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
-import type { Settings as LayoutSettings } from '@ant-design/pro-components';
+import type { MenuDataItem, Settings as LayoutSettings } from '@ant-design/pro-components';
 import { PageLoading, SettingDrawer } from '@ant-design/pro-components';
 import type { RequestConfig, RunTimeLayoutConfig } from 'umi';
 import { history, Link } from 'umi';
@@ -10,6 +10,7 @@ import { currentUser as queryCurrentUser } from './services/ant-design-pro/user'
 import logo from '@/assets/images/baby.jpeg'
 import { ResponseError } from 'umi-request';
 import { notification } from 'antd';
+import { getMenuForNav } from './services/ant-design-pro/menus';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -24,6 +25,7 @@ export const initialStateConfig = {
  * */
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
+  menuData?: MenuDataItem[];
   currentUser?: API.CurrentUser;
   loading?: boolean;
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
@@ -33,17 +35,29 @@ export async function getInitialState(): Promise<{
       const msg = await queryCurrentUser();
       return msg.data;
     } catch (error) {
-      // localStorage.removeItem('token');
+      localStorage.removeItem('token');
       history.push(loginPath);
     }
     return undefined;
   };
+  const fetchMenu = async () => {
+    try {
+      const msg = await getMenuForNav();
+      return msg.data;
+    } catch (error) {
+      // history.push(loginPath);
+    }
+    return undefined;
+  };
+
   // 如果不是登录页面，执行
   if (history.location.pathname !== loginPath) {
     const currentUser = await fetchUserInfo();
+    const menuData = await fetchMenu();
     return {
       fetchUserInfo,
       currentUser,
+      menuData: menuData,
       settings: defaultSettings,
     };
   }
@@ -56,6 +70,7 @@ export async function getInitialState(): Promise<{
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
+
     logo,
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
@@ -107,7 +122,26 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         </>
       );
     },
+    // menu: {
+    //     params:{
+    //       userId: initialState?.currentUser?.userid,
+    //     },
+    //   request: async () => {
+    //     const menuData = await getMenuForNav();
+    //     console.log(menuData, '======')
+    //     return menuData.data
+    //   }
+
+    // },
+    menu: {
+      // 每当 initialState?.currentUser?.userid 发生修改时重新执行 request
+      params: initialState,
+      request: async (params, defaultMenuData) => {
+        return initialState?.menuData || defaultMenuData;
+      },
+    },
     ...initialState?.settings,
+
   };
 };
 
