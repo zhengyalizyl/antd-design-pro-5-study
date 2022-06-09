@@ -3,6 +3,7 @@ import { Col, Form, Modal, Row, Spin, Checkbox } from 'antd';
 import { ProForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
 import { queryPermissions } from '@/services/ant-design-pro/permission';
 import { groupBy, keys } from 'lodash';
+import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 
 export type FormValueType = Partial<API.RoleListItem>;
 
@@ -44,10 +45,9 @@ const PermissionForm: React.FC<RoleFormProps> = (props) => {
         return perimission.name.split(' ').slice(-1)[0]
     })
     const NAME = { admin: '员工', role: '角色', permission: '权限' };
-    const onchange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onchange = (e: CheckboxChangeEvent) => {
         const { value, checked } = e.target;
         if (checked && permissionIds.every(id => id !== value)) {
-            console.log([...permissionIds, value])
             setPermissionIds([...permissionIds, value])
         } else {
             setPermissionIds(permissionIds.filter(id => id !== value))
@@ -83,9 +83,10 @@ const PermissionForm: React.FC<RoleFormProps> = (props) => {
                             <Row>
                                 {permissionsByGroup[name].map(permission => (
                                     <Col key={permission._id} span={10}>
-                                        <input type="checkbox"
+                                        <Checkbox
                                             onChange={onchange}
                                             value={permission._id}
+                                            checked={!!permissionIds.find(id => id === permission._id)}
                                             defaultChecked={!!props.values.permissions?.find(p => p._id === permission._id)} />
                                         {permission.nameCn}
                                     </Col>
