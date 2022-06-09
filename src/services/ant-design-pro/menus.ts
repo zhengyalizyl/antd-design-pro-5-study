@@ -65,3 +65,12 @@ export async function selectMenus(
     
   });
 }
+/**     /admin/menus/fetch */
+export async  function getMenuForNav( options?: { [key: string]: any },){
+  return request<API.MenuList>('/admin/menus/fetch', {
+    method: 'GET',
+    params: {
+      ...(options || {}),
+    },
+  });    
+}

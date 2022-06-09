@@ -60,7 +60,7 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
             return [];
           }}
           placeholder="请选择父类菜单"
-          rules={[{ required: true, message: '请选择父类菜单' }]}
+        // rules={[{ required: true, message: '请选择父类菜单' }]}
         />
         <ProFormSelect
           name="permission"
@@ -73,8 +73,8 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
             }
             return [];
           }}
-          placeholder="请选择父类菜单"
-          rules={[{ required: true, message: '请选择父类菜单' }]}
+          placeholder="请选择权限"
+          rules={[{ required: true, message: '请选择权限' }]}
         />
       </ProForm>
     </Modal>

@@ -5,7 +5,8 @@ declare namespace API {
   type CurrentUser = {
       avatar:string;
       name:string;
-      isAdmin:boolean
+      isAdmin:boolean;
+      userid:string
   };
 
   type LoginResult = {
