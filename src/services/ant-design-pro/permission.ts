@@ -51,3 +51,15 @@ export async function updatePermission(options: { [key: string]: any }) {
     },
   });
 }
+
+
+/** 更新规则 PUT /admin/permission/:id*/
+export async function handlePermission(options: { [key: string]: any }) {
+  const {_id}=options;
+  return request<Record<string, any>>(`/admin/roles/${_id}/permissions`, {
+    method: 'POST',
+    data: {
+      ...(options || {}),
+    },
+  });
+}

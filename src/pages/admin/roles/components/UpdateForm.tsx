@@ -27,7 +27,6 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => (
     <ProForm
       initialValues={{
         name: props.values.name,
-        nameCn: props.values.nameCn,
         _id: props.values._id
       }}
       onFinish={async (values) => {
@@ -37,11 +36,6 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => (
       <ProFormText
         name="_id"
         hidden
-      />
-      <ProFormText
-        name="nameCn"
-        label="标识符"
-        rules={[{ required: true, message: '请输入用户名！' }]}
       />
       <ProFormText
         name="name"

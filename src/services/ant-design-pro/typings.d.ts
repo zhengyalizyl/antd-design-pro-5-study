@@ -39,25 +39,26 @@ declare namespace API {
     name: string;
     updatedAt: string;
     createdAt: string;
-    permissions:[];
+    permissions?:PermissionListItem[];
     nameCn:string;
   };
   type PermissionListItem = {
-    _id?:string;
-    name?: string;
-    updatedAt?: string;
-    createdAt?: string;
-    nameCn?:string;
+    _id:string;
+    name: string;
+    updatedAt: string;
+    createdAt: string;
+    nameCn:string;
   };
 
   type MenuListItem = {
-    _id?:string;
-    name?: string;
-    updatedAt?: string;
-    createdAt?: string;
-    nameCn?:string;
-    parent?:string;
-    path?:string;
+    _id:string;
+    name: string;
+    updatedAt: string;
+    createdAt: string;
+    nameCn:string;
+    parent:object;
+    parentId:string;
+    path:string;
     permission?:string;
   };
 

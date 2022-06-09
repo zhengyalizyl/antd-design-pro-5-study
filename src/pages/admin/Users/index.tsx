@@ -164,7 +164,7 @@ const TableList: React.FC = () => {
       dataIndex: 'roles',
       hideInForm: true,
       renderText: (roles: API.RoleListItem[]) => {
-        return roles.map(role => role.nameCn).join(',')
+        return roles.map(role => role.name).join(',')
       },
     },
     {

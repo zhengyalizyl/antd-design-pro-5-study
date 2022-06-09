@@ -1,0 +1,29 @@
+{
+    "roles": [
+        { "name": "普通" },
+        { "name": "设计师" }
+    ],
+    "permissions": [
+        { "name": "read admin", "nameCn": "查看员工" },
+        { "name": "create admin", "nameCn": "创建员工" },
+        { "name": "update admin", "nameCn": "更新员工" },
+        { "name": "allocate roles for admin", "nameCn": "给员工分配角色" },
+        { "name": "read role", "nameCn": "角色管理" },
+        { "name": "create role", "nameCn": "创建角色" },
+        { "name": "update role", "nameCn": "更新角色" },
+        { "name": "allocate permissions for role", "nameCn": "给角色分配权限" },
+        { "name": "read permission", "nameCn": "查看角色" },
+        { "name": "create permission", "nameCn": "创建角色" },
+        { "name": "update permission", "nameCn": "更新角色" },
+        { "name": "read menu", "nameCn": "查看菜单" },
+        { "name": "create menu", "nameCn": "创建菜单" },
+        { "name": "update menu", "nameCn": "更新菜单" }
+    ],
+    "menus": [
+        { "name": "授权管理", "path": "/admin" },
+        { "name": "员工管理", "path": "/admin/users", "permission": "read admin" },
+        { "name": "角色管理", "path": "/admin/roles", "permission": "read role" },
+        { "name": "菜单管理", "path": "/admin/menus", "permission": "read menu" },
+        { "name": "权限管理", "path": "/admin/permissions", "permission": "read permission" }
+    ]
+}

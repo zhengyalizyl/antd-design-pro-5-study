@@ -108,7 +108,7 @@ const TableList: React.FC = () => {
 
   const columns: ProColumns<API.PermissionListItem>[] = [
     {
-      title: "标识符",
+      title: "中文标识符(备注)",
       formItemProps: {
         rules: [
           {
@@ -132,7 +132,7 @@ const TableList: React.FC = () => {
       },
     },
     {
-      title: '名称',
+      title: '名称(比如read admin)',
       dataIndex: 'name',
       formItemProps: {
         rules: [

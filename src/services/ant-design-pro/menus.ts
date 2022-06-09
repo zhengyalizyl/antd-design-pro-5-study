@@ -51,3 +51,17 @@ export async function updateMenu(options: { [key: string]: any }) {
     },
   });
 }
+
+
+/** 获取规则列表 GET /admin/fetch */
+export async function selectMenus(
+  options?: { [key: string]: any },
+) {
+  return request<API.MenuList>('/admin/menus/selectMenus', {
+    method: 'GET',
+    params: {
+      ...(options || {}),
+    },
+    
+  });
+}

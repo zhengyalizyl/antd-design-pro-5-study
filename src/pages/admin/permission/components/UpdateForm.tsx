@@ -41,13 +41,13 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => (
       />
       <ProFormText
         name="nameCn"
-        label="标识符"
-        rules={[{ required: true, message: '请输入用户名！' }]}
+        label="中文标识符"
+        rules={[{ required: true, message: '请输入中文标识符！' }]}
       />
       <ProFormText
         name="name"
         label="名称"
-        rules={[{ required: true, message: '请输入密码！' }]}
+        rules={[{ required: true, message: '请输入名称！' }]}
       />
     </ProForm>
   </Modal>

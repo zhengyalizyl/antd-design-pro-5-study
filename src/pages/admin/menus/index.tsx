@@ -20,7 +20,7 @@ import CreateForm from './components/CreateForm';
  * @zh-CN 添加节点
  * @param fields
  */
-const handleAdd = async (fields: API.PermissionListItem) => {
+const handleAdd = async (fields: API.MenuListItem) => {
   const hide = message.loading('正在添加');
   try {
     await addMenus({ ...fields });
@@ -43,11 +43,7 @@ const handleAdd = async (fields: API.PermissionListItem) => {
 const handleUpdate = async (fields: FormValueType) => {
   const hide = message.loading('Configuring');
   try {
-    await updateMenu({
-      name: fields.name,
-      nameCn: fields.nameCn,
-      _id: fields._id,
-    });
+    await updateMenu({ ...fields });
     hide();
 
     message.success('Configuration is successful');
@@ -65,7 +61,7 @@ const handleUpdate = async (fields: FormValueType) => {
  *
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: API.PermissionListItem[]) => {
+const handleRemove = async (selectedRows: API.MenuListItem[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
@@ -97,8 +93,8 @@ const TableList: React.FC = () => {
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<API.PermissionListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<API.PermissionListItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<API.MenuListItem>();
+  const [selectedRowsState, setSelectedRows] = useState<API.MenuListItem[]>([]);
 
   /**
    * @en-US International configuration
@@ -106,7 +102,7 @@ const TableList: React.FC = () => {
    * */
   const intl = useIntl();
 
-  const columns: ProColumns<API.PermissionListItem>[] = [
+  const columns: ProColumns<API.MenuListItem>[] = [
     {
       title: "名称",
       formItemProps: {
@@ -130,10 +126,6 @@ const TableList: React.FC = () => {
           </a>
         );
       },
-    },
-    {
-      title: '中文描述',
-      dataIndex: 'nameCn'
     },
     {
       title: '路径',
@@ -161,7 +153,8 @@ const TableList: React.FC = () => {
     },
     {
       title: '父类菜单',
-      dataIndex: 'parent'
+      dataIndex: 'parent',
+      renderText: (parent) => parent?.nameCn
     },
     {
       title: '创建时间',
@@ -263,9 +256,9 @@ const TableList: React.FC = () => {
         </FooterToolbar>
       )}
       <CreateForm onCancel={() => handleModalVisible(false)} modalVisible={createModalVisible}>
-        <ProTable<API.PermissionListItem, API.PageParams>
+        <ProTable<API.MenuListItem, API.PageParams>
           onSubmit={async (value) => {
-            const success = await handleAdd(value as API.PermissionListItem);
+            const success = await handleAdd(value as API.MenuListItem);
             if (success) {
               handleModalVisible(false);
               if (actionRef.current) {
@@ -312,7 +305,7 @@ const TableList: React.FC = () => {
         closable={false}
       >
         {currentRow?.name && (
-          <ProDescriptions<API.PermissionListItem>
+          <ProDescriptions<API.MenuListItem>
             column={2}
             title={`${currentRow?.name}的详情`}
             request={async () => ({
@@ -321,7 +314,7 @@ const TableList: React.FC = () => {
             params={{
               id: currentRow?._id,
             }}
-            columns={columns as ProDescriptionsItemProps<API.PermissionListItem>[]}
+            columns={columns as ProDescriptionsItemProps<API.MenuListItem>[]}
           />
         )}
       </Drawer>

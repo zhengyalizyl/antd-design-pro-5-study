@@ -14,6 +14,8 @@ import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import moment from 'moment';
 import CreateForm from './components/CreateForm';
+import PermissionForm from './components/PermissionForm';
+import { handlePermission } from '@/services/ant-design-pro/permission';
 
 /**
  * @en-US Add node
@@ -45,7 +47,6 @@ const handleUpdate = async (fields: FormValueType) => {
   try {
     await updateRole({
       name: fields.name,
-      nameCn: fields.nameCn,
       _id: fields._id,
     });
     hide();
@@ -93,6 +94,7 @@ const TableList: React.FC = () => {
    * @zh-CN 分布更新窗口的弹窗
    * */
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+  const [permissionModalVisible, handlePermissionModalVisible] = useState<boolean>(false);
 
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
@@ -108,16 +110,16 @@ const TableList: React.FC = () => {
 
   const columns: ProColumns<API.RoleListItem>[] = [
     {
-      title: "标识符",
+      title: '名称',
+      dataIndex: 'name',
       formItemProps: {
         rules: [
           {
             required: true,
-            message: '标识符为必填项',
+            message: '用户名为必填项',
           },
         ],
       },
-      dataIndex: 'nameCn',
       render: (dom, entity) => {
         return (
           <a
@@ -132,21 +134,12 @@ const TableList: React.FC = () => {
       },
     },
     {
-      title: '名称',
-      dataIndex: 'name',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: '用户名为必填项',
-          },
-        ],
-      }
-    },
-    {
       title: "权限列表",
       dataIndex: 'permissions',
       hideInForm: true,
+      renderText: (roles: API.RoleListItem[]) => {
+        return roles.map(role => role.nameCn).join(',')
+      },
     },
     {
       title: (
@@ -175,6 +168,15 @@ const TableList: React.FC = () => {
         >
           <FormattedMessage id="pages.searchTable.config" defaultMessage="Configuration" />
         </a>,
+        <a
+          key="config2"
+          onClick={() => {
+            handlePermissionModalVisible(true);
+            setCurrentRow(record);
+          }}
+        >
+          分配权限
+        </a>
       ],
     },
   ];
@@ -182,7 +184,7 @@ const TableList: React.FC = () => {
   const access = useAccess();
   return (
     <PageContainer>
-      <ProTable<API.RuleListItem, API.PageParams>
+      <ProTable<API.RoleListItem, API.PageParams>
         headerTitle="角色列表"
         actionRef={actionRef}
         rowKey="_id"
@@ -279,7 +281,28 @@ const TableList: React.FC = () => {
         />
       )}
 
-
+      {currentRow && Object.keys(currentRow).length && (
+        <PermissionForm
+          onSubmit={async (value) => {
+            const success = await handlePermission(value);
+            if (success) {
+              handlePermissionModalVisible(false);
+              setCurrentRow(undefined);
+              if (actionRef.current) {
+                actionRef.current.reload();
+              }
+            }
+          }}
+          onCancel={() => {
+            handlePermissionModalVisible(false);
+            if (!showDetail) {
+              setCurrentRow(undefined);
+            }
+          }}
+          permissionModalVisible={permissionModalVisible}
+          values={currentRow || {}}
+        />
+      )}
       <Drawer
         width={600}
         visible={showDetail}
