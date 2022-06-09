@@ -6,7 +6,8 @@ declare namespace API {
       avatar:string;
       name:string;
       isAdmin:boolean;
-      userid:string
+      userid:string;
+      roles:RoleListItem[];
   };
 
   type LoginResult = {

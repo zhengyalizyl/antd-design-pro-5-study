@@ -193,7 +193,7 @@ const TableList: React.FC = () => {
         }}
         pagination={{ defaultPageSize: 2 }}
         toolBarRender={() => [
-          (access.canAdmin && (
+          ((access.canAdmin || access.canCreateRole) && (
             <Button
               type="primary"
               key="primary"
