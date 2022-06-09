@@ -197,7 +197,7 @@ const TableList: React.FC = () => {
   const access = useAccess();
   return (
     <PageContainer>
-      <ProTable<API.RuleListItem, API.PageParams>
+      <ProTable<API.MenuListItem, API.PageParams>
         headerTitle="菜单列表"
         actionRef={actionRef}
         rowKey="_id"
@@ -255,7 +255,7 @@ const TableList: React.FC = () => {
           </Button>
         </FooterToolbar>
       )}
-      <CreateForm onCancel={() => handleModalVisible(false)} modalVisible={createModalVisible}>
+      {/* <CreateForm onCancel={() => handleModalVisible(false)} modalVisible={createModalVisible}>
         <ProTable<API.MenuListItem, API.PageParams>
           onSubmit={async (value) => {
             const success = await handleAdd(value as API.MenuListItem);
@@ -270,7 +270,23 @@ const TableList: React.FC = () => {
           type="form"
           columns={columns}
         />
-      </CreateForm>
+      </CreateForm> */}
+
+      <CreateForm
+        onSubmit={async (value) => {
+          const success = await handleAdd(value as API.MenuListItem);
+          if (success) {
+            handleModalVisible(false);
+            if (actionRef.current) {
+              actionRef.current.reload();
+            }
+          }
+        }}
+        onCancel={() => {
+          handleModalVisible(false);
+        }}
+        createModalVisible={createModalVisible}
+      />
       {currentRow && Object.keys(currentRow).length && (
         <UpdateForm
           onSubmit={async (value) => {

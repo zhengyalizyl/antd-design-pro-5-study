@@ -12,9 +12,9 @@
         { "name": "create role", "nameCn": "创建角色" },
         { "name": "update role", "nameCn": "更新角色" },
         { "name": "allocate permissions for role", "nameCn": "给角色分配权限" },
-        { "name": "read permission", "nameCn": "查看角色" },
-        { "name": "create permission", "nameCn": "创建角色" },
-        { "name": "update permission", "nameCn": "更新角色" },
+        { "name": "read permission", "nameCn": "查看权限" },
+        { "name": "create permission", "nameCn": "创建权限" },
+        { "name": "update permission", "nameCn": "更新权限" },
         { "name": "read menu", "nameCn": "查看菜单" },
         { "name": "create menu", "nameCn": "创建菜单" },
         { "name": "update menu", "nameCn": "更新菜单" }
