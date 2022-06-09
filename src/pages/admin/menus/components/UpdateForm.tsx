@@ -5,6 +5,7 @@ import ProForm, {
   ProFormText,
 } from '@ant-design/pro-form';
 import { selectMenus } from '@/services/ant-design-pro/menus'
+import { queryPermissions } from '@/services/ant-design-pro/permission';
 
 
 export type FormValueType = Partial<API.MenuListItem>;
@@ -18,6 +19,7 @@ export type UpdateFormProps = {
 
 const UpdateForm: React.FC<UpdateFormProps> = (props) => {
   const [menus, setMenus] = useState<API.MenuListItem[]>([]);
+  const [permissions, setPermissions] = useState<API.PermissionListItem[]>([])
 
   return (
     <Modal
@@ -69,10 +71,19 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
           placeholder="请选择父类菜单"
           rules={[{ required: true, message: '请选择父类菜单' }]}
         />
-        <ProFormText
+        <ProFormSelect
           name="permission"
           label="权限"
-          rules={[{ required: true, message: '请输入权限' }]}
+          request={async () => {
+            const { success, data } = await queryPermissions();
+            if (success && data) {
+              setPermissions(data)
+              return data!.map(menu => ({ label: menu.name, value: menu.name }))
+            }
+            return [];
+          }}
+          placeholder="请选择父类菜单"
+          rules={[{ required: true, message: '请选择父类菜单' }]}
         />
       </ProForm>
     </Modal>

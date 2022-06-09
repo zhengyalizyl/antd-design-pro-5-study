@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from 'antd';
 import { ProForm, ProFormSelect, ProFormText } from '@ant-design/pro-components';
 import { selectMenus } from '@/services/ant-design-pro/menus';
+import { queryPermissions } from '@/services/ant-design-pro/permission';
 
 export type FormValueType = Partial<API.MenuListItem>;
 
@@ -15,6 +16,7 @@ export type CreateFormProps = {
 const CreateForm: React.FC<CreateFormProps> = (props) => {
   const { createModalVisible, onCancel } = props;
   const [menus, setMenus] = useState<API.MenuListItem[]>([]);
+  const [permissions, setPermissions] = useState<API.PermissionListItem[]>([])
   return (
     <Modal
       destroyOnClose
@@ -60,9 +62,19 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
           placeholder="请选择父类菜单"
           rules={[{ required: true, message: '请选择父类菜单' }]}
         />
-        <ProFormText
+        <ProFormSelect
           name="permission"
           label="权限"
+          request={async () => {
+            const { success, data } = await queryPermissions();
+            if (success && data) {
+              setPermissions(data)
+              return data!.map(menu => ({ label: menu.name, value: menu.name }))
+            }
+            return [];
+          }}
+          placeholder="请选择父类菜单"
+          rules={[{ required: true, message: '请选择父类菜单' }]}
         />
       </ProForm>
     </Modal>

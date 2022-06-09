@@ -154,7 +154,7 @@ const TableList: React.FC = () => {
     {
       title: '父类菜单',
       dataIndex: 'parent',
-      renderText: (parent) => parent?.nameCn
+      renderText: (parent) => parent?.name
     },
     {
       title: '创建时间',

@@ -4,7 +4,7 @@ import { request } from 'umi';
 
 /** 获取规则列表 GET /admin/permissions */
 export async function queryPermissions(
-  params: {
+  params?: {
     // query
     /** 当前的页码 */
     current?: number;
